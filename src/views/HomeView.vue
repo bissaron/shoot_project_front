@@ -23,14 +23,23 @@
           <thead>
             <tr>
               <th class="text-left">ชื่อสนาม/เวลา</th>
-              <th class="text-left">08:00 - 09:00</th>
-              <th class="text-left">09:00 - 10:00</th>
-              <th class="text-left">10:00 - 11:00</th>
-              <th class="text-left">11:00 - 12:00</th>
-              <th class="text-left">12:00 - 13:00</th>
-              <th class="text-left">13:00 - 14:00</th>
-              <th class="text-left">14:00 - 15:00</th>
-              <th class="text-left">15:00 - 16:00</th>
+              <th class="text-left">17:00 - 17:15</th>
+              <th class="text-left">17:15 - 17:30</th>
+              <th class="text-left">17:30 - 17:45</th>
+              <th class="text-left">17:45 - 18:00</th>
+              <th class="text-left">18:00 - 18:15</th>
+              <th class="text-left">18:15 - 18:30</th>
+              <th class="text-left">18:30 - 18:45</th>
+              <th class="text-left">18:45 - 19:00</th> 
+              <th class="text-left">19:00 - 19:15</th>
+              <th class="text-left">19:15 - 19:30</th>
+              <th class="text-left">19:30 - 19:45</th>
+              <th class="text-left">19:45 - 20:00</th>
+              <th class="text-left">20:00 - 20:15</th>
+              <th class="text-left">20:15 - 20:30</th>
+            
+             
+       
             </tr>
           </thead>
           <tbody>
@@ -164,7 +173,102 @@
                   </div>
                 </v-chip>
               </td>
-              
+              <td>
+                <v-chip
+                  @click="
+                    openDialogCard(item.range_id, item.range, item.timeD_09)
+                  "
+                  class="select"
+                  :disabled="item.time_09 === 'ไม่ว่าง'"
+                  label
+                  :color="getColor(item.time_09)"
+                  style="display: flex; justify-content: center; align-items; center; width: 100px;"
+                >
+                  <div style="text-align: center">
+                    {{ item.time_09 }}
+                  </div>
+                </v-chip>
+              </td>
+              <td>
+                <v-chip
+                  @click="
+                    openDialogCard(item.range_id, item.range, item.timeD_10)
+                  "
+                  class="select"
+                  :disabled="item.time_10 === 'ไม่ว่าง'"
+                  label
+                  :color="getColor(item.time_10)"
+                  style="display: flex; justify-content: center; align-items; center; width: 100px;"
+                >
+                  <div style="text-align: center">
+                    {{ item.time_10 }}
+                  </div>
+                </v-chip>
+              </td>
+              <td>
+                <v-chip
+                  @click="
+                    openDialogCard(item.range_id, item.range, item.timeD_11)
+                  "
+                  class="select"
+                  :disabled="item.time_11 === 'ไม่ว่าง'"
+                  label
+                  :color="getColor(item.time_11)"
+                  style="display: flex; justify-content: center; align-items; center; width: 100px;"
+                >
+                  <div style="text-align: center">
+                    {{ item.time_11 }}
+                  </div>
+                </v-chip>
+              </td>
+              <td>
+                <v-chip
+                  @click="
+                    openDialogCard(item.range_id, item.range, item.timeD_12)
+                  "
+                  class="select"
+                  :disabled="item.time_12 === 'ไม่ว่าง'"
+                  label
+                  :color="getColor(item.time_12)"
+                  style="display: flex; justify-content: center; align-items; center; width: 100px;"
+                >
+                  <div style="text-align: center">
+                    {{ item.time_12 }}
+                  </div>
+                </v-chip>
+              </td>
+              <td>
+                <v-chip
+                  @click="
+                    openDialogCard(item.range_id, item.range, item.timeD_13)
+                  "
+                  class="select"
+                  :disabled="item.time_13 === 'ไม่ว่าง'"
+                  label
+                  :color="getColor(item.time_13)"
+                  style="display: flex; justify-content: center; align-items; center; width: 100px;"
+                >
+                  <div style="text-align: center">
+                    {{ item.time_13 }}
+                  </div>
+                </v-chip>
+              </td>
+              <td>
+                <v-chip
+                  @click="
+                    openDialogCard(item.range_id, item.range, item.timeD_14)
+                  "
+                  class="select"
+                  :disabled="item.timeD_14 === 'ไม่ว่าง'"
+                  label
+                  :color="getColor(item.time_14)"
+                  style="display: flex; justify-content: center; align-items; center; width: 100px;"
+                >
+                  <div style="text-align: center">
+                    {{ item.time_14 }}
+                  </div>
+                </v-chip>
+              </td>
             </tr>
           </tbody>
         </v-table>
@@ -266,6 +370,7 @@ export default {
       gunItems: [],
       selectGuns: [],
       roomData: [],
+
     };
   },
   watch: {
@@ -278,7 +383,7 @@ export default {
 
   created() {
     this.auth = JSON.parse(localStorage.getItem("auth"));
-    this.isAdmin = this.auth.user.role === "admin";
+    this.isAdmin = this.auth.user.role === "owner";
     const currentDate = new Date();
     const year = currentDate.getFullYear();
     const month = String(currentDate.getMonth() + 1).padStart(2, "0"); // Adding 1 because months are 0-indexed
@@ -324,42 +429,72 @@ export default {
               const time_01 = await this.filterReserveItemsByTime(
                 this.reserveItems,
                 item,
-                "08:00 - 09:00"
+                "17:00 - 17:15"
               );
               const time_02 = await this.filterReserveItemsByTime(
                 this.reserveItems,
                 item,
-                "09:00 - 10:00"
+                "17:15 - 17:30"
               );
               const time_03 = await this.filterReserveItemsByTime(
                 this.reserveItems,
                 item,
-                "10:00 - 11:00"
+                "17:30 - 17:45"
               );
               const time_04 = await this.filterReserveItemsByTime(
                 this.reserveItems,
                 item,
-                "11:00 - 12:00"
+                "17:45 - 18:00"
               );
               const time_05 = await this.filterReserveItemsByTime(
                 this.reserveItems,
                 item,
-                "12:00 - 13:00"
+                "18:00 - 18:15"
               );
               const time_06 = await this.filterReserveItemsByTime(
                 this.reserveItems,
                 item,
-                "13:00 - 14:00"
+                "18:15 - 18:30"
               );
               const time_07 = await this.filterReserveItemsByTime(
                 this.reserveItems,
                 item,
-                "14:00 - 15:00"
+                "18:30 - 18:45"
               );
               const time_08 = await this.filterReserveItemsByTime(
                 this.reserveItems,
                 item,
-                "15:00 - 16:00"
+                "18:45 - 19:00"
+              );
+              const time_09 = await this.filterReserveItemsByTime(
+                this.reserveItems,
+                item,
+                "19:00 - 19:15"
+              );
+              const time_10 = await this.filterReserveItemsByTime(
+                this.reserveItems,
+                item,
+                "19:15 - 19:30"
+              );
+              const time_11 = await this.filterReserveItemsByTime(
+                this.reserveItems,
+                item,
+                "19:30 - 19:45"
+              );
+              const time_12 = await this.filterReserveItemsByTime(
+                this.reserveItems,
+                item,
+                "19:45 - 20:00"
+              );
+              const time_13 = await this.filterReserveItemsByTime(
+                this.reserveItems,
+                item,
+                "20:00 - 20:15"
+              );
+              const time_14 = await this.filterReserveItemsByTime(
+                this.reserveItems,
+                item,
+                "20:15 - 20:30"
               );
               
               // Add similar lines for other time slots
@@ -375,16 +510,26 @@ export default {
                 time_06: time_06.length > 0 ? "ไม่ว่าง" : "ว่าง",
                 time_07: time_07.length > 0 ? "ไม่ว่าง" : "ว่าง",
                 time_08: time_08.length > 0 ? "ไม่ว่าง" : "ว่าง",
-               
-                timeD_01: "08:00 - 09:00",
-                timeD_02: "09:00 - 10:00",
-                timeD_03: "10:00 - 11:00",
-                timeD_04: "11:00 - 12:00",
-                timeD_05: "12:00 - 13:00",
-                timeD_06: "13:00 - 14:00",
-                timeD_07: "14:00 - 15:00",
-                timeD_08: "15:00 - 16:00",
-              
+                time_09: time_09.length > 0 ? "ไม่ว่าง" : "ว่าง",
+                time_10: time_10.length > 0 ? "ไม่ว่าง" : "ว่าง",
+                time_11: time_11.length > 0 ? "ไม่ว่าง" : "ว่าง",
+                time_12: time_12.length > 0 ? "ไม่ว่าง" : "ว่าง",
+                time_13: time_13.length > 0 ? "ไม่ว่าง" : "ว่าง",
+                time_14: time_14.length > 0 ? "ไม่ว่าง" : "ว่าง",
+                timeD_01: "17:00 - 17:15",
+                timeD_02: "17:15 - 17:30",
+                timeD_03: "17:30 - 17:45",
+                timeD_04: "17:45 - 18:00",
+                timeD_05: "18:00 - 18:15",
+                timeD_06: "18:15 - 18:30",
+                timeD_07: "18:30 - 18:45",
+                timeD_08: "18:45 - 19:00",
+                timeD_09: "19:00 - 19:15",
+                timeD_10: "19:15 - 19:30",
+                timeD_11: "19:30 - 19:45",
+                timeD_12: "19:45 - 20:00",
+                timeD_13: "20:00 - 20:15",
+                timeD_14: "20:15 - 20:30",
               };
             })
           );
@@ -541,6 +686,7 @@ export default {
   width: 300px;
   font-size: 12px;
   text-align: center;
+  padding:  10px;
 }
 
 td {

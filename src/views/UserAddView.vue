@@ -10,7 +10,7 @@
             <v-form @submit.prevent="addUser">
               <v-row>
                 <v-col cols="12" sm="12" md="4">
-                  <h2>{{ !showTextField ? "เพิ่มลูกค้า" : "เพิ่มผู้ดูแลระบบ" }}</h2>
+                  <h2>{{ !showTextField ? "เพิ่มผู้ใช้" : "เพิ่มแอดมิน" }}</h2>
                 </v-col>
                 <v-col cols="12" sm="12" md="12">
                   <v-select
@@ -98,7 +98,7 @@ export default {
         lname: "",
         tel: "",
       },
-      roles: ["customer", "admin"],
+      roles: ["customer", "owner"],
       passwordMatchRule: [
         (v) => !!v || "กรุณากรอกยืนยันรหัสผ่าน",
         (v) => v === this.user.password || "รหัสผ่านไม่ตรงกัน",
@@ -116,9 +116,9 @@ export default {
   },
   watch: {
     "user.role": function (newRole) {
-      if (newRole === "admin") {
+      if (newRole === "owner") {
         this.showTextField = true;
-        console.log("admin");
+        console.log("owner");
       } else {
         this.showTextField = false;
         console.log("customer");
@@ -145,13 +145,13 @@ export default {
 
       try {
         let userData = {};
-        if (this.user.role == "admin") {
+        if (this.user.role == "owner") {
           userData = {
             username: this.user.username,
             password: this.user.password,
             role: this.user.role,
-            a_fname: this.user.fname,
-            a_lname: this.user.lname,
+            o_fname: this.user.fname,
+            o_lname: this.user.lname,
           };
         } else {
           userData = {

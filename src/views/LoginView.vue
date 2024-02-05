@@ -101,8 +101,8 @@ export default {
         telephoneRules: [
           (v) => !!v || "กรุณากรอกหมายเลขโทรศัพท์",
           (v) =>
-            /^0[0-9]{2}-[0-9]{7}$/.test(v) ||
-            "รูปแบบหมายเลขโทรศัพท์ไม่ถูกต้อง (เช่น 099-9999999)",
+            /^0[0-9]{2}-[0-9]{3}-[0-9]{4}$/.test(v) ||
+            "รูปแบบหมายเลขโทรศัพท์ไม่ถูกต้อง (เช่น 099-999-9999)",
         ],
       },
       passwordMatchRule: [
@@ -137,46 +137,85 @@ export default {
     },
 
     async register() {
-      if (this.password !== this.confirmPassword) {
-        // Passwords do not match
-        // Handle the error, e.g., show an error message
-        return;
-      }
+  if (this.password !== this.confirmPassword) {
+    // Passwords do not match
+    // Handle the error, e.g., show an error message
+    return;
+  }
 
-      try {
-        const data = {
-          username: this.username,
-          password: this.password,
-          role: "customer",
-          c_fname: this.firstName,
-          c_lname: this.lastName,
-          c_tel: this.telephone,
-        };
-        const response = await this.axios.post(
-          process.env.VUE_APP_API_SERVER + `/register`,
-          data
-        );
-        if (response.status === 201) {
-          Swal.fire({
-            title: "สมัครสมาชิกสำเร็จ!",
-            text: "คุณสมัครสมาชิกสำเร็จ",
-            icon: "success",
-            confirmButtonText: "ตกลง",
-            // timer: 1500
-          }).then(() => window.location.reload());
-        }
-      } catch (error) {
-        Swal.fire({
-              title: "เกิดข้อผิดพลาด!",
-              // text: "คุณสมัครสมาชิกสำเร็จ",
-              icon: "error",
-              confirmButtonText: "ตกลง",
-              timer: 1500,
-            });
-        console.error("Registration error:", error);
-        // You can display an error message to the user here
-      }
-    },
+  try {
+    const data = {
+      username: this.username,
+      password: this.password,
+      role: "customer",
+      c_fname: this.firstName,
+      c_lname: this.lastName,
+      c_tel: this.telephone,
+    };
+
+    // Check for duplicate username
+    const usernameCheck = await this.axios.post(
+      process.env.VUE_APP_API_SERVER + `/checkUsername`,
+      { username: this.username }
+    );
+
+    console.log("Username check response:", usernameCheck);
+
+    if (!usernameCheck.data.available) {
+      console.log("Username is not available");
+      Swal.fire({
+        title: "ชื่อผู้ใช้ถูกใช้ไปแล้ว",
+        icon: "error",
+        confirmButtonText: "ตกลง",
+      });
+      return;
+    }
+
+    // Check for duplicate phone number
+    const phoneCheck = await this.axios.post(
+      process.env.VUE_APP_API_SERVER + `/checkPhoneNumber`,
+      { telephone: this.telephone }
+    );
+
+    if (!phoneCheck.data.available) {
+      console.log("Phone number is not available");
+      Swal.fire({
+        title: "เบอร์มือถือถูกใช้ไปแล้ว",
+        icon: "error",
+        confirmButtonText: "ตกลง",
+      });
+      return;
+    }
+
+    // If both checks pass, proceed with registration
+    const response = await this.axios.post(
+      process.env.VUE_APP_API_SERVER + `/register`,
+      data
+    );
+
+    if (response.status === 201) {
+      Swal.fire({
+        title: "สมัครสมาชิกสำเร็จ!",
+        text: "คุณสมัครสมาชิกสำเร็จ",
+        icon: "success",
+        confirmButtonText: "ตกลง",
+      }).then(() => window.location.reload());
+    }
+  } catch (error) {
+    console.error("Registration error:", error);
+
+    // Display a generic error message
+    Swal.fire({
+      title: "เกิดข้อผิดพลาดในการสมัครสมาชิก",
+      icon: "error",
+      confirmButtonText: "ตกลง",
+      timer: 1500,
+    });
+  }
+}
+
+
+,
 
     toggleView() {
       this.isLogin = !this.isLogin;

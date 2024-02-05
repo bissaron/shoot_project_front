@@ -87,7 +87,7 @@ export default {
       userItems: [],
       editedUser: {},
       editDialog: false,
-      roles: ["customer", "admin"],
+      roles: ["customer", "owner"],
       headers: [
         {
           text: "#",
@@ -179,13 +179,13 @@ export default {
     },
     async saveUserChanges(userId) {
       let userData = {};
-      if (this.editedUser.role == "admin") {
+      if (this.editedUser.role == "owner") {
         userData = {
           username: this.editedUser.username,
           password: this.editedUser.password,
           role: this.editedUser.role,
-          a_fname: this.editedUser.fname,
-          a_lname: this.editedUser.lname,
+          o_fname: this.editedUser.fname,
+          o_lname: this.editedUser.lname,
         };
       } else {
         userData = {

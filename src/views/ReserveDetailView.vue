@@ -12,35 +12,35 @@
     </v-row>
 
     <v-row justify="center">
-      <v-col cols="12" xs="12" sm="12" md="12">
-        <v-card class="card" v-if="items">
-          <v-card-title
-            class="card-title"
-            style="display: flex; justify-content: space-between"
-            >{{ items.shootingRange.s_name }}
-            <v-btn style="background-color: var(--color-red); color: var(--color-white)" @click="cancel(items.r_id)"
-              >ยกเลิกการจอง</v-btn
-            ></v-card-title
-          >
-          <v-card-text
-            ><strong>วันที่จอง:</strong> {{ items.r_date_reserve }}</v-card-text
-          >
-          <v-card-text
-            ><strong>เวลาที่จอง:</strong>
-            {{ items.r_time_reserve }}</v-card-text
-          >
-          <v-card-text><strong>ปืน:</strong></v-card-text>
-          <v-card-text
-            v-for="gun in items.guns"
-            :key="gun.id"
-            style="display: inline"
-            >{{ gun }},</v-card-text
-          >
-        </v-card>
-        <v-card class="no-data-card" v-if="!items">
-          <v-card-title>ยังไม่มีข้อมูลการจองสนาม</v-card-title>
-        </v-card>
+  <v-col v-for="(reservation, index) in items" :key="index" cols="12" xs="12" sm="12" md="12">
+    <v-card class="card">
+      <v-card-title
+        class="card-title"
+        style="display: flex; justify-content: space-between"
+        >{{ reservation.shootingRange.s_name }}
+        <v-btn style="background-color: var(--color-red); color: var(--color-white)" @click="cancel(reservation.r_id)"
+          >ยกเลิกการจอง</v-btn
+        ></v-card-title
+      >
+      <v-card-text
+        ><strong>วันที่จอง:</strong> {{ reservation.r_date_reserve }}</v-card-text
+      >
+      <v-card-text
+        ><strong>เวลาที่จอง:</strong>
+        {{ reservation.r_time_reserve }}</v-card-text
+      >
+      <v-card-text><strong>ปืน:</strong></v-card-text>
+      <v-card-text
+        v-for="gun in reservation.guns"
+        :key="gun.id"
+        style="display: inline"
+        >{{ gun }}</v-card-text
+      >
+  
+</v-card>
+
       </v-col>
+      
     </v-row>
   </v-container>
 </template>
@@ -61,21 +61,33 @@ export default {
   },
   methods: {
     async getDetail() {
-      try {
-        const response = await this.axios.get(
-          process.env.VUE_APP_API_SERVER + `/reserves`
-        );
-        if (response.status === 200) {
-          this.items = response.data.filter(
-            (item) => item.customer.c_id === this.c_id
-          );
-          this.items = this.items[0];
-          console.log("items", this.items);
+  try {
+    const response = await this.axios.get(
+      process.env.VUE_APP_API_SERVER + `/reserves`
+    );
+    if (response.status === 200) {
+      const allReservations = response.data;
+      const userReservations = allReservations.filter(
+        (item) => item.customer.c_id === this.c_id
+      );
+      const uniqueReservations = [];
+      const uniqueIds = [];
+      
+      userReservations.forEach((reservation) => {
+        if (!uniqueIds.includes(reservation.r_id)) {
+          uniqueIds.push(reservation.r_id);
+          uniqueReservations.push(reservation);
         }
-      } catch (error) {
-        console.error("Registration error:", error);
-      }
-    },
+      });
+      
+      this.items = uniqueReservations;
+      console.log("items", this.items);
+    }
+  } catch (error) {
+    console.error("Registration error:", error);
+  }
+},
+
     async cancel(Rid) {
       Swal.fire({
         title: "แจ้งเตือน!",
@@ -149,12 +161,14 @@ a:hover .card {
 .no-data-card {
   margin: 20px;
   padding: 20px;
-  /* border: 1px solid #ccc; */
   border-radius: 5px;
-  /* background-color: #f0f0f0; */
+  background-color: #f0f0f0; /* กำหนดสีพื้นหลัง */
   display: flex;
   justify-content: center;
   text-align: center;
-  color: #333;
+  color: #333; /* กำหนดสีข้อความ */
 }
+
+
+
 </style>

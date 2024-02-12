@@ -11,10 +11,23 @@ import RangeListView from '../views/RangeListView.vue'
 import RangeAddView from '../views/RangeAddView.vue'
 import ReserveDetailView from '../views/ReserveDetailView.vue'
 import ReserveListView from '../views/ReserveListView.vue'
+import ReportView from '../views/ReportView.vue'
+import ToggleButton from '../views/ToggleButton.vue'
+import Display from '../views/112.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
+  {
+    path: '/togglebutton',
+    name: 'togglebutton',
+    component: ToggleButton
+  },
+  {
+    path: '/display',
+    name: 'display',
+    component: Display
+  },
   {
     path: '/',
     name: 'home',
@@ -69,6 +82,11 @@ const routes = [
     path: '/reserve',
     name: 'reserve',
     component: ReserveListView
+  },
+  {
+    path: '/report',
+    name: 'report',
+    component: ReportView
   },
 ]
 

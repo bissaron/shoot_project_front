@@ -1,6 +1,7 @@
 <template>
   <div>
     <ImageCover />
+    
     <div
       v-if="auth"
       style="
@@ -11,7 +12,9 @@
         flex-direction: column;
       "
     >
+
       <h1>ตารางการจองสนามยิงปืน</h1>
+
       <div style="padding: 20px; padding-left: 0px">
         <label for="date">เลือกวันที่: </label>
         <input type="date" id="date" name="date" v-model="selectedDate" />
@@ -45,6 +48,7 @@
           <tbody>
             <tr v-for="(item, index) in roomData" :key="index">
               <td>{{ item.range }}</td>
+              
               <td>
                 <v-chip
                   @click="
@@ -325,7 +329,7 @@
                 v-if="index === 3 && selectGuns.length > 4"
                 class="text-grey text-caption align-self-center"
               >
-                (+{{ selectGuns.length - 4 }} others)
+                (+{{ selectGuns.length - 2 }} others)
               </span>
             </template>
           </v-select>
@@ -346,17 +350,34 @@
       </v-card>
     </v-dialog>
   </div>
+  
 </template>
 
 <script>
 import ImageCover from "@/components/ImageCover.vue";
 import Swal from "sweetalert2";
+import { mapState, mapMutations } from 'vuex';
+
+
+
 
 export default {
+
   name: "HomeView",
   components: {
     ImageCover,
+    
+
   },
+
+  computed: {
+  isBig() {
+    // Read isBig from localStorage
+    const storedIsBig = localStorage.getItem('isBig');
+    // Convert to boolean (default to false if not present in localStorage)
+    return storedIsBig ? JSON.parse(storedIsBig) : false;
+  },
+},
   data() {
     return {
       auth: null,
@@ -373,14 +394,17 @@ export default {
 
     };
   },
+ 
   watch: {
+    
+    
     selectedDate: async function (data) {
       this.selectedDate = data;
       await this.getReserve();
       await this.getAllRange();
     },
   },
-
+ 
   created() {
     this.auth = JSON.parse(localStorage.getItem("auth"));
     this.isAdmin = this.auth.user.role === "owner";
@@ -397,9 +421,17 @@ export default {
     this.getReserve();
     this.getAllRange();
     this.getGuns();
-  },
+   
 
+  },
+  
+
+
+  
   methods: {
+    
+  
+
     async filterReserveItemsByTime(reserveItems, shootingRange, time) {
       return new Promise((resolve, reject) => {
         try {
@@ -416,6 +448,8 @@ export default {
         }
       });
     },
+  
+  
     async getAllRange() {
       try {
         const response = await this.axios.get(
@@ -543,6 +577,7 @@ export default {
       return value === "ว่าง" ? "green" : "red";
     },
     async getReserve() {
+      
       try {
         const response = await this.axios.get(
           process.env.VUE_APP_API_SERVER + "/reserves"
@@ -586,58 +621,83 @@ export default {
         console.error(err);
       }
     },
+    
+  
     async reserveRange() {
-      try {
-        // this.dataReserve.guns = this.selectGuns.map((item) => ({ g_id: item }));
-        this.dataReserve.guns = this.selectGuns;
+  try {
 
-        // console.log("save", this.dataReserve);
+    if (this.isBig) {
+  Swal.fire({
+    title: 'ฝนกำลังตก',
+    text: 'ไม่สามารถทำการจองได้ในขณะฝนกำลังตก',
+    icon: 'error',
+    confirmButtonText: 'ตกลง'
+  });
+  return; // ออกจากเมธอดหากฝนกำลังตก
+}
 
-        const response = await this.axios.post(
-          process.env.VUE_APP_API_SERVER + "/reserve",
-          { ...this.dataReserve }
-        );
-        if (response.status === 201) {
-          this.dialogOpen = false;
-          Swal.fire({
-            title: "จองสนามสำเร็จ!",
-            // text: "คุณสมัครสมาชิกสำเร็จ",
-            icon: "success",
-            confirmButtonText: "ตกลง",
-            // timer: 1000,
-          }).then(() => {
-            window.location.href = "/reservedata";
-          });
-        }
-      } catch (err) {
-        Swal.fire({
-          title: "เกิดข้อผิดพลาด!",
-          // text: "คุณสมัครสมาชิกสำเร็จ",
-          icon: "error",
-          confirmButtonText: "ตกลง",
-          timer: 1500,
-        });
-        console.error(err);
-      }
-    },
+
+ 
+    //ตรวจสอบว่ามีปืนถูกเลือกหรือไม่
+    if (this.selectGuns.length === 0) {
+      Swal.fire({
+        title: "กรุณาเลือกปืน!",
+        icon: "warning",
+        confirmButtonText: "ตกลง",
+        timer: 1500,
+      });
+      return; // ออกจากเมธอดหากไม่มีปืนถูกเลือก
+    }
+    
+    // ดำเนินการจองต่อไป
+    this.dataReserve.guns = this.selectGuns;
+
+    const response = await this.axios.post(
+      process.env.VUE_APP_API_SERVER + "/reserve",
+      { ...this.dataReserve }
+    );
+    if (response.status === 201) {
+      this.dialogOpen = false;
+      Swal.fire({
+        title: "จองสนามสำเร็จ!",
+        icon: "success",
+        confirmButtonText: "ตกลง",
+      }).then(() => {
+        window.location.href = "/reservedata";
+      });
+    }
+  } catch (err) {
+    Swal.fire({
+      title: "เกิดข้อผิดพลาด!",
+      icon: "error",
+      confirmButtonText: "ตกลง",
+      timer: 1500,
+    });
+    console.error(err);
+  }
+}
+
+,
     async openDialogCard(s_id, s_name, r_time_reserve) {
-      if (this.isAdmin) return;
-      if (await this.getDetail()) return;
-      this.dataReserve = {
-        range: s_name,
-        r_date_reserve: this.selectedDate,
-        r_time_reserve: r_time_reserve,
-        customer: {
-          c_id: this.c_id,
-        },
-        shootingRange: {
-          s_id: s_id,
-        },
-        guns: [],
-      };
-      this.dialogOpen = true;
-      // console.log(this.dataReserve);
+  if (this.isAdmin) return;
+
+  if (await this.getDetail()) return;
+  this.dataReserve = {
+    range: s_name,
+    r_date_reserve: this.selectedDate,
+    r_time_reserve: r_time_reserve,
+    customer: {
+      c_id: this.c_id,
     },
+    shootingRange: {
+      s_id: s_id,
+    },
+    guns: [],
+  };
+  this.dialogOpen = true;
+}
+
+,
     closeDialogCard() {
       // Reset the editedUser and close the dialog
       this.dataReserve = {};
@@ -654,10 +714,10 @@ export default {
             (item) => item.customer.c_id === this.c_id
           );
           console.log("this.items", this.items);
-          if (this.items.length > 0) {
+          if (this.items.length >= 3) { // เปลี่ยนจาก > 0 เป็น >= 3
             Swal.fire({
               title: "คุณมีสนามที่จองอยู่แล้ว!",
-              text: "คุณสามารถจองได้ 1 สนามต่อครั้ง",
+              text: "คุณสามารถจองได้ 3 สนามต่อครั้ง",
               icon: "warning",
               confirmButtonText: "ดูข้อมูล",
               showCancelButton: true,

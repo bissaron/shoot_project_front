@@ -98,7 +98,7 @@ export default {
         lname: "",
         tel: "",
       },
-      roles: ["customer", "owner"],
+      roles: ["customer", "admin"],
       passwordMatchRule: [
         (v) => !!v || "กรุณากรอกยืนยันรหัสผ่าน",
         (v) => v === this.user.password || "รหัสผ่านไม่ตรงกัน",
@@ -116,9 +116,9 @@ export default {
   },
   watch: {
     "user.role": function (newRole) {
-      if (newRole === "owner") {
+      if (newRole === "admin") {
         this.showTextField = true;
-        console.log("owner");
+        console.log("admin");
       } else {
         this.showTextField = false;
         console.log("customer");
@@ -145,7 +145,7 @@ export default {
 
       try {
         let userData = {};
-        if (this.user.role == "owner") {
+        if (this.user.role == "admin") {
           userData = {
             username: this.user.username,
             password: this.user.password,

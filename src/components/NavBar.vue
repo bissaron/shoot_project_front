@@ -1,12 +1,12 @@
 <template>
-  <v-app-bar app color="primary" dark>
+  <v-app-bar app color="#003C71" dark>
     <div
       class="d-flex align-center"
       style="flex: 1; justify-content: flex-start"
     >
       <div
         style="
-          background-color: var(--color-main);
+          background-color: var(--color-white);
           border-radius: 100px;
           width: 40px;
           height: 40px;
@@ -21,19 +21,20 @@
           alt="Vuetify Logo"
           class="shrink mr-2"
           contain
-          src="https://clipart-library.com/img1/2026292.png"
+          src="../assets/logo.png"
           transition="scale-transition"
-          width="40"
+          width="50"
+          
         />
       </div>
       <div
         class="shrink mt-1 hidden-sm-and-down"
-        style="color: var(--color-main); font-weight: bold"
+        style="color: var(--color-white); font-weight: bold"
         contain
         min-width="100"
         width="100"
       >
-        <h3>SSC Club Dannok</h3>
+        <h3>PSU Shooting Club</h3>
       </div>
     </div>
 
@@ -46,7 +47,7 @@
         flex: 1;
       "
     >
-      <router-link to="/" style="margin-right: 25px">
+    <router-link to="/" style="margin-right: 25px; text-decoration: none; ">
         <span :class="{ active: $route.path === '/' }">หน้าแรก</span>
       </router-link>
 
@@ -58,11 +59,7 @@
       <v-menu min-width="200px" rounded v-model="showMenu">
         <template v-slot:activator="{ props }">
           <v-btn v-bind="props" @click="showMenu = !showMenu">
-            <!-- <v-avatar color="var(--color-main)" size="40px" style="margin-right: 20px;">
-              <v-icon color="var(--color-black)" dark
-                >mdi-account-circle</v-icon
-              >
-            </v-avatar> -->
+          
             {{ user.username }}
           </v-btn>
         </template>
@@ -117,7 +114,7 @@ export default {
   created() {
     this.auth = JSON.parse(localStorage.getItem("auth"));
     this.isAuth = this.auth !== null;
-    this.isAdmin = this.auth.user.role === "owner";
+    this.isAdmin = this.auth.user.role === "admin";
     this.user.initials = "PP";
     this.user.username = this.auth.user.username;
     this.user.phone = this.auth.c_tel || null;
@@ -141,9 +138,9 @@ export default {
           if (this.auth.user.role === "customer") {
             this.user.fullname = this.auth.c_fname + " " + this.auth.c_lname;
             this.user.role = "ลูกค้า";
-          } else if (this.auth.user.role === "owner") {
-            this.user.fullname = this.auth.o_fname + " " + this.auth.o_lname;
-            this.user.role = "เจ้าของ";
+          } else if (this.auth.user.role === "admin") {
+            this.user.fullname = this.auth.a_fname + " " + this.auth.a_lname;
+            this.user.role = "ผู้ดูแลระบบ";
           }
         }
       } catch (error) {
@@ -157,12 +154,11 @@ export default {
 </script>
 
 <style scoped>
+
 a span {
   text-decoration: none;
   color: var(--color-white);
 }
 
-.active {
-  color: var(--color-main);
-}
+
 </style>

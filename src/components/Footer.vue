@@ -1,17 +1,23 @@
 <template>
-    <v-footer>
-      <v-container>
-        <v-row>
-          <v-col>
-            <div class="text-center">
-              &copy; {{ new Date().getFullYear() }} SSC Club Dannok | Contact us on <a href="https://www.facebook.com/SSC.Club.Dannok" target="_blank">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Facebook_Logo_%282019%29.png/1024px-Facebook_Logo_%282019%29.png" alt="Facebook" width="20" height="20"> 
-                SSC Club Dannok
-              </a>
-            </div>
-          </v-col>
-        </v-row>
-      </v-container>
-    </v-footer>
-  </template>
-  
+  <v-footer>
+    <v-container>
+      <v-row>
+        <v-col>
+          <div class="text-center">
+            &copy; {{ new Date().getFullYear() }} PSU Shooting Club | ติดต่อ <a href="https://www.facebook.com/psushootingclub" target="_blank"  style="text-decoration: none; color: #ffffff;">
+              <img src="../assets/logofacebook.png" alt="Facebook" width="20" height="20"> 
+              PSU Shooting Club 
+            </a>
+          </div>
+        </v-col>
+      </v-row>
+    </v-container>
+  </v-footer>
+</template>
+
+<style scoped>
+.v-footer {
+  color: white; /* ตั้งค่าสีข้อความใน footer เป็นขาว */
+  background-color: #315DAE;
+}
+</style>

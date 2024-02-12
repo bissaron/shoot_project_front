@@ -3,7 +3,6 @@
     <v-btn text @click="$router.go(-1)" style="margin-bottom: 20px">
       <v-icon left>mdi-arrow-left</v-icon> ย้อนกลับ
     </v-btn>
-    <h2>รายการการจองสนาม</h2>
     <v-row>
       <v-col
         style="display: flex; justify-content: flex-end; margin-bottom: 20px"
@@ -11,9 +10,22 @@
         <!-- <v-btn color="var(--color-main)" to="/gun/add">เพิ่มปืน</v-btn> -->
       </v-col>
     </v-row>
+    <v-card-title>
+      รายการการจองสนาม
+      <v-spacer></v-spacer>
+      <v-text-field
+        v-model="search"
+        append-icon="mdi-magnify"
+        label="Search"
+        single-line
+        hide-details
+      ></v-text-field>
+    </v-card-title>
     <v-data-table
       :headers="headers"
       :items="indexedGunItems"
+      :search="search"
+
       class="elevation-1"
     >
       <template v-slot:[`item.actions`]="{ item }">
@@ -42,7 +54,7 @@
           v-for="gun in editGun?.guns"
           :key="gun.g_id"
           style="display: inline"
-          >{{ gun }},</v-card-text
+          >{{ gun }}</v-card-text
         >
       </v-card>
     </v-dialog>
@@ -55,6 +67,7 @@ import Swal from "sweetalert2";
 export default {
   data() {
     return {
+      search: '',
       gunItems: [],
       editGun: {},
       editDialog: false,

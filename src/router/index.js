@@ -12,22 +12,19 @@ import RangeAddView from '../views/RangeAddView.vue'
 import ReserveDetailView from '../views/ReserveDetailView.vue'
 import ReserveListView from '../views/ReserveListView.vue'
 import ReportView from '../views/ReportView.vue'
-import ToggleButton from '../views/ToggleButton.vue'
-import Display from '../views/112.vue'
+import ReserveHistory from '../views/ReserveHistory.vue'
+import ReserveReport from '../views/ReserveReport.vue'
+import ReportReserveMonth from '../views/ReportReserveMonth.vue'
+import ReportReserveDay from '../views/ReportReserveDay.vue'
+import ReportGunMonth from '../views/ReportGunMonth.vue'
+import ReportGunDay from '../views/ReportGunDay.vue'
+import ReportRangeMonth from '../views/ReportRangeMonth.vue'
+import ReportRangeDay from '../views/ReportRangeDay.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
-  {
-    path: '/togglebutton',
-    name: 'togglebutton',
-    component: ToggleButton
-  },
-  {
-    path: '/display',
-    name: 'display',
-    component: Display
-  },
+  
   {
     path: '/',
     name: 'home',
@@ -87,6 +84,46 @@ const routes = [
     path: '/report',
     name: 'report',
     component: ReportView
+  },
+  {
+    path: '/reservehistory',
+    name: 'reservehistory',
+    component: ReserveHistory
+  },
+  {
+    path: '/reservereport',
+    name: 'reservereport',
+    component: ReserveReport
+  },
+  {
+    path: '/reportreservemonth',
+    name: 'reportreservemnth',
+    component: ReportReserveMonth
+  },
+  {
+    path: '/reportreserveday',
+    name: 'Reportreserveday',
+    component: ReportReserveDay
+  },
+  {
+    path: '/reportgunmonth',
+    name: 'reporgunmonth',
+    component: ReportGunMonth
+  },
+  {
+    path: '/reportgunday',
+    name: 'Rrportgunday',
+    component: ReportGunDay
+  },
+  {
+    path: '/reportrangemonth',
+    name: 'reportrangemonth',
+    component: ReportRangeMonth
+  },
+  {
+    path: '/reportrangeday',
+    name: 'Reportrangeday',
+    component: ReportRangeDay
   },
 ]
 

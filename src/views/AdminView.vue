@@ -1,6 +1,7 @@
 <template>
   <v-container>
-    <v-row justify="center" style="margin-top: 20px">
+    
+    <v-row justify="center" style="margin-top: 130px">
       <h2>เมนูจัดการระบบ</h2>
     </v-row>
     <v-row justify="center">
@@ -81,7 +82,7 @@
           class="card"
         >
           <v-card-title>สถานะฝนตก</v-card-title>
-          <v-switch v-model="isRain" color="success" @change="toggleIsBig"></v-switch>
+          <v-switch v-model="isBig" color="success" @change="toggleIsBig"></v-switch>
         </v-card>
       </v-col>
       <v-col cols="12" xs="10" sm="10" md="3">

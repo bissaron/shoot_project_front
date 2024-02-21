@@ -17,7 +17,8 @@
 
       <div style="padding: 20px; padding-left: 0px">
         <label for="date">เลือกวันที่: </label>
-        <input type="date" id="date" name="date" v-model="selectedDate" />
+        <input type="date" id="date" name="date" v-model="selectedDate" :min="minDate" />
+        
       </div>
 
       <!-- <p>Selected Date: {{ selectedDate }}</p> -->
@@ -369,15 +370,27 @@ export default {
     
 
   },
-
-  computed: {
+  mounted() {
+    if (this.isBig) {
+      Swal.fire({
+        title: 'ฝนกำลังตก',
+        text: 'ไม่สามารถทำการจองได้ในขณะฝนกำลังตก',
+        icon: 'error',
+        confirmButtonText: 'ตกลง'
+      });
+    }
+  },
+  
+    computed: {
   isBig() {
     // Read isBig from localStorage
     const storedIsBig = localStorage.getItem('isBig');
     // Convert to boolean (default to false if not present in localStorage)
     return storedIsBig ? JSON.parse(storedIsBig) : false;
   },
+  
 },
+
   data() {
     return {
       auth: null,
@@ -391,6 +404,8 @@ export default {
       gunItems: [],
       selectGuns: [],
       roomData: [],
+      minDate: new Date().toISOString().split('T')[0] // วันที่ปัจจุบัน
+
 
     };
   },

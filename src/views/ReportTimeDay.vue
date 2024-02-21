@@ -1,0 +1,134 @@
+<template>
+  <v-container style="padding-top: 50px; padding-bottom: 60px">
+    <v-btn text @click="$router.go(-1)" style="margin-bottom: 20px">
+      <v-icon left>mdi-arrow-left</v-icon> ย้อนกลับ
+    </v-btn>
+    <h2>รายงาน</h2>
+    <canvas id="usageChart" style="max-height: 400px;"></canvas>
+    
+  </v-container>
+</template>
+
+<script>
+import moment from 'moment'; // นำเข้าไลบรารี moment.js
+import Chart from 'chart.js/auto';
+
+export default {
+  data() {
+    return {
+      reservations: [], // ข้อมูลการจอง
+      usageData: {} // จำนวนการใช้งานตามวันในสัปดาห์
+    };
+  },
+  created() {
+    // ดึงข้อมูลการจอง
+    this.getReservations().then(() => {
+      // เมื่อข้อมูลการจองถูกดึงมาแล้ว ก็สร้างกราฟ
+      this.renderChart();
+    });
+  },
+
+  methods: {
+    async getReservations() {
+      try {
+        // ดึงข้อมูลการจองจาก API หรือฐานข้อมูล
+        const response = await this.axios.get(process.env.VUE_APP_API_SERVER + `/reserves`);
+        if (response.status === 200) {
+          // กำหนดข้อมูลการจองให้กับตัวแปร reservations
+          this.reservations = response.data;
+          // คำนวณจำนวนการใช้งานตามวันในสัปดาห์
+          this.calculateUsageData();
+        }
+      } catch (error) {
+        console.error('Error fetching reservations:', error);
+      }
+    },
+
+    calculateUsageData() {
+      this.usageData = {}; // เริ่มต้นตารางเป็นช่องว่างทั้งหมด
+
+      this.reservations.forEach(reservation => {
+        const date = new Date(reservation.r_date_reserve);
+        const monthIndex = date.getMonth(); // ดึงเดือนเป็นหมายเลขลำดับ
+        const monthName = moment.monthsShort(monthIndex); // แปลงเดือนเป็นชื่อย่อ
+        const dayIndex = moment(date).format('dddd'); // ดึงชื่อวันในสัปดาห์
+        const timeSlot = reservation.r_time_reserve; // ดึงเวลาการจอง
+
+        if (!this.usageData[dayIndex]) {
+          this.usageData[dayIndex] = {};
+        }
+
+        if (!this.usageData[dayIndex][timeSlot]) {
+          this.usageData[dayIndex][timeSlot] = 0;
+        }
+
+        this.usageData[dayIndex][timeSlot]++;
+      });
+    },
+
+    async renderChart() {
+      const ctx = document.getElementById('usageChart').getContext('2d');
+      const timeSlots = [
+        "17:00 - 17:15",
+        "17:15 - 17:30",
+        "17:30 - 17:45",
+        "17:45 - 18:00",
+        "18:00 - 18:15",
+        "18:15 - 18:30",
+        "18:30 - 18:45",
+        "18:45 - 19:00",
+        "19:00 - 19:15",
+        "19:15 - 19:30",
+        "19:30 - 19:45",
+        "19:45 - 20:00",
+        "20:00 - 20:15",
+        "20:15 - 20:30",
+      ];
+      const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+      const counts = Array.from({ length: days.length }, () => Array(timeSlots.length).fill(0));
+      const colors = [
+       'rgba(255, 0, 0, 0.2)',     // วันอาทิตย์
+        'rgba(255, 255, 0, 0.2)',  // วันจันทร์
+        'rgba(255, 192, 203, 0.2)',// วันอังคาร
+        'rgba(0, 128, 0, 0.2)',    // วันพุธ
+        'rgba(255, 165, 0, 0.2)',  // วันพฤหัสบดี
+        'rgba(0, 0, 255, 0.2)',    // วันศุกร์
+        'rgba(128, 0, 128, 0.2)',  // วันเสาร์
+      ];
+
+      days.forEach((day, i) => {
+        if (this.usageData[day]) {
+          timeSlots.forEach((timeSlot, j) => {
+            counts[i][j] = this.usageData[day][timeSlot] || 0;
+          });
+        }
+      });
+
+      if (this.chart) {
+        this.chart.destroy(); // ทำลายกราฟที่มีอยู่
+      }
+
+      this.chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: timeSlots,
+          datasets: days.map((day, i) => ({
+            label: moment().day(i).format('dddd').substring(0, 3), // ใช้เพียง 3 ตัวอักษรเป็น label
+            data: counts[i],
+            backgroundColor: colors[i], // เลือกสีตามเดือน
+            borderColor: colors[i].replace('0.2', '1'), // เปลี่ยนค่า alpha เพื่อทำให้เข้มขึ้น
+            borderWidth: 1
+          }))
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+      });
+    }
+  }
+};
+</script>

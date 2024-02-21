@@ -12,22 +12,23 @@ import RangeAddView from '../views/RangeAddView.vue'
 import ReserveDetailView from '../views/ReserveDetailView.vue'
 import ReserveListView from '../views/ReserveListView.vue'
 import ReportView from '../views/ReportView.vue'
-import ToggleButton from '../views/ToggleButton.vue'
-import Display from '../views/112.vue'
+import ReserveHistory from '../views/ReserveHistory.vue'
+import ReserveReport from '../views/ReserveReport.vue'
+import ReportGunMonth from '../views/ReportGunMonth.vue'
+import ReportGunDay from '../views/ReportGunDay.vue'
+import ReportRangeMonth from '../views/ReportRangeMonth.vue'
+import ReportRangeDay from '../views/ReportRangeDay.vue'
+import ReportReserveAll from '../views/ReportReserveAll.vue'
+import ReportTimeMonth from '../views/ReportTimeMonth.vue'
+import ReportTimeDay from '../views/ReportTimeDay.vue'
+import ReportReserveAllmonthday from '../views/ReportReserveAllmonthday.vue'
+
+
 
 Vue.use(VueRouter)
 
 const routes = [
-  {
-    path: '/togglebutton',
-    name: 'togglebutton',
-    component: ToggleButton
-  },
-  {
-    path: '/display',
-    name: 'display',
-    component: Display
-  },
+  
   {
     path: '/',
     name: 'home',
@@ -87,6 +88,56 @@ const routes = [
     path: '/report',
     name: 'report',
     component: ReportView
+  },
+  {
+    path: '/reservehistory',
+    name: 'reservehistory',
+    component: ReserveHistory
+  },
+  {
+    path: '/reservereport',
+    name: 'reservereport',
+    component: ReserveReport
+  },
+  {
+    path: '/reportreserveall',
+    name: 'reportreserveall',
+    component: ReportReserveAll
+  },
+  {
+    path: '/reportreserveallmonthday',
+    name: 'reportreserveallmonthday',
+    component: ReportReserveAllmonthday
+  },
+  {
+    path: '/reporttimemonth',
+    name: 'Reporttimemonth',
+    component: ReportTimeMonth
+  },
+  {
+    path: '/reporttimeday',
+    name: 'Reporttimeday',
+    component: ReportTimeDay
+  },
+  {
+    path: '/reportgunmonth',
+    name: 'reporgunmonth',
+    component: ReportGunMonth
+  },
+  {
+    path: '/reportgunday',
+    name: 'Rrportgunday',
+    component: ReportGunDay
+  },
+  {
+    path: '/reportrangemonth',
+    name: 'reportrangemonth',
+    component: ReportRangeMonth
+  },
+  {
+    path: '/reportrangeday',
+    name: 'Reportrangeday',
+    component: ReportRangeDay
   },
 ]
 

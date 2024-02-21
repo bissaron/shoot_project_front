@@ -76,9 +76,27 @@
               <h5>{{ user.fullname }}</h5>
               <span>{{ user.phone }}</span>
               <v-divider class="my-3" v-if="isAdmin"></v-divider>
-              <v-btn variant="text" v-if="isAdmin" to="/admin">จัดการระบบ</v-btn>
-              <v-divider class="my-3" v-if="!isAdmin"></v-divider>
-              <v-btn variant="text" to="/reservedata" v-if="!isAdmin">ข้อมูลการจอง</v-btn>
+                <v-btn variant="text" v-if="isAdmin" to="/admin" style="margin: 0 auto;">จัดการระบบ</v-btn>              
+<v-row>
+  <v-divider class="my-3" v-if="!isAdmin"></v-divider>
+</v-row>
+
+<v-row class="text-center justify-center mb-2 ">
+  <v-btn variant="text" to="/reservedata" v-if="!isAdmin" >ข้อมูลการจอง</v-btn>
+</v-row>
+<v-row class="text-center justify-center mb-2">
+  <v-btn variant="text" to="/reservehistory" v-if="!isAdmin" >ประวัติการจอง</v-btn>
+</v-row>
+<v-row class="text-center justify-center mb-2">
+  <v-btn variant="text" to="/reservereport" v-if="!isAdmin" >รายงานการจอง</v-btn>
+</v-row>
+
+
+
+
+
+
+
               <v-divider class="my-3"></v-divider>
               <v-btn variant="text" @click="logout()"> ออกจากระบบ </v-btn>
             </div>

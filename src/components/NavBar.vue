@@ -76,7 +76,13 @@
               <h5>{{ user.fullname }}</h5>
               <span>{{ user.phone }}</span>
               <v-divider class="my-3" v-if="isAdmin"></v-divider>
+<<<<<<< HEAD
                 <v-btn variant="text" v-if="isAdmin" to="/admin" style="margin: 0 auto;">จัดการระบบ</v-btn>              
+=======
+              <v-row>
+  <v-btn variant="text" v-if="isAdmin" to="/admin">จัดการระบบ</v-btn>
+</v-row>
+>>>>>>> 46184d5b162f3ed5471fa5bd8e6f910e93c39b25
 <v-row>
   <v-divider class="my-3" v-if="!isAdmin"></v-divider>
 </v-row>

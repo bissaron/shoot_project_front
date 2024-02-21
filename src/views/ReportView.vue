@@ -73,7 +73,11 @@
       </v-col>
       
       <v-col cols="12" xs="10" sm="10" md="3">
+<<<<<<< HEAD
         <router-link to="/reporttimemonth">
+=======
+        <router-link to="/reportreservemonth">
+>>>>>>> 46184d5b162f3ed5471fa5bd8e6f910e93c39b25
           <v-card
             style="
               margin: 20px;
@@ -84,12 +88,20 @@
             "
             class="card"
           >
+<<<<<<< HEAD
             <v-card-title>เวลา(เดือน)</v-card-title>
+=======
+            <v-card-title>การจอง(เดือน)</v-card-title>
+>>>>>>> 46184d5b162f3ed5471fa5bd8e6f910e93c39b25
           </v-card>
         </router-link>
       </v-col>
       <v-col cols="12" xs="10" sm="10" md="3">
+<<<<<<< HEAD
         <router-link to="/reporttimeday">
+=======
+        <router-link to="/reportreserveday">
+>>>>>>> 46184d5b162f3ed5471fa5bd8e6f910e93c39b25
           <v-card
             style="
               margin: 20px;
@@ -100,6 +112,7 @@
             "
             class="card"
           >
+<<<<<<< HEAD
             <v-card-title>เวลา(วัน)</v-card-title>
           </v-card>
         </router-link>
@@ -133,6 +146,9 @@
             class="card"
           >
             <v-card-title>การจองทั้งหมด</v-card-title>
+=======
+            <v-card-title>การจอง(วัน)</v-card-title>
+>>>>>>> 46184d5b162f3ed5471fa5bd8e6f910e93c39b25
           </v-card>
         </router-link>
       </v-col>

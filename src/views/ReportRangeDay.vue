@@ -4,10 +4,24 @@
       <v-icon left>mdi-arrow-left</v-icon> ย้อนกลับ
     </v-btn>
     <h2>รายงาน</h2>
+<<<<<<< HEAD
     <canvas id="weeklyUsageChart" style="max-height: 400px;"></canvas>
 
     <v-row>
   
+=======
+    <canvas id="weeklyUsageChart"></canvas>
+
+    <v-row>
+  <v-col cols="12" sm="6" md="4" v-for="day in ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']" :key="day">
+    <v-card>
+      <v-card-text>
+        <h3>{{ day }}</h3>
+        <p>จำนวนการใช้งาน: {{ weeklyUsage[day] || 0 }}</p>
+      </v-card-text>
+    </v-card>
+  </v-col>
+>>>>>>> 46184d5b162f3ed5471fa5bd8e6f910e93c39b25
 </v-row>
   </v-container>
 </template>

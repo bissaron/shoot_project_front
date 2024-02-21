@@ -14,16 +14,24 @@ import ReserveListView from '../views/ReserveListView.vue'
 import ReportView from '../views/ReportView.vue'
 import ReserveHistory from '../views/ReserveHistory.vue'
 import ReserveReport from '../views/ReserveReport.vue'
+<<<<<<< HEAD
+=======
+import ReportReserveMonth from '../views/ReportReserveMonth.vue'
+import ReportReserveDay from '../views/ReportReserveDay.vue'
+>>>>>>> 46184d5b162f3ed5471fa5bd8e6f910e93c39b25
 import ReportGunMonth from '../views/ReportGunMonth.vue'
 import ReportGunDay from '../views/ReportGunDay.vue'
 import ReportRangeMonth from '../views/ReportRangeMonth.vue'
 import ReportRangeDay from '../views/ReportRangeDay.vue'
+<<<<<<< HEAD
 import ReportReserveAll from '../views/ReportReserveAll.vue'
 import ReportTimeMonth from '../views/ReportTimeMonth.vue'
 import ReportTimeDay from '../views/ReportTimeDay.vue'
 import ReportReserveAllmonthday from '../views/ReportReserveAllmonthday.vue'
 
 
+=======
+>>>>>>> 46184d5b162f3ed5471fa5bd8e6f910e93c39b25
 
 Vue.use(VueRouter)
 
@@ -100,6 +108,7 @@ const routes = [
     component: ReserveReport
   },
   {
+<<<<<<< HEAD
     path: '/reportreserveall',
     name: 'reportreserveall',
     component: ReportReserveAll
@@ -118,6 +127,16 @@ const routes = [
     path: '/reporttimeday',
     name: 'Reporttimeday',
     component: ReportTimeDay
+=======
+    path: '/reportreservemonth',
+    name: 'reportreservemnth',
+    component: ReportReserveMonth
+  },
+  {
+    path: '/reportreserveday',
+    name: 'Reportreserveday',
+    component: ReportReserveDay
+>>>>>>> 46184d5b162f3ed5471fa5bd8e6f910e93c39b25
   },
   {
     path: '/reportgunmonth',

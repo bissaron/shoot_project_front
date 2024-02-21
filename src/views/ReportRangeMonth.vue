@@ -4,10 +4,24 @@
       <v-icon left>mdi-arrow-left</v-icon> ย้อนกลับ
     </v-btn>
     <h2>รายงาน</h2>
+<<<<<<< HEAD
     <canvas id="monthlyUsageChart" style="max-height: 400px;"></canvas>
 
     <v-row>
   
+=======
+    <canvas id="monthlyUsageChart"></canvas>
+
+    <v-row>
+  <v-col cols="12" sm="6" md="4" v-for="month in ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']" :key="month">
+    <v-card>
+      <v-card-text>
+        <h3>{{ month }}</h3>
+        <p>จำนวนการใช้งาน: {{ monthlyUsage[month] || 0 }}</p>
+      </v-card-text>
+    </v-card>
+  </v-col>
+>>>>>>> 46184d5b162f3ed5471fa5bd8e6f910e93c39b25
 </v-row>
 
   </v-container>

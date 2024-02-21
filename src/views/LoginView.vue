@@ -95,14 +95,22 @@ export default {
       isLogin: true,
       Rules: {
         usernameRules: [(v) => !!v || "กรุณากรอกชื่อผู้ใช้งาน"],
+<<<<<<< HEAD
         passwordRules: [(v) => !!v || "กรุณากรอกรหัสผ่านอย่างน้อย 6 ตัว"],
+=======
+        passwordRules: [(v) => !!v || "กรุณากรอกรหัสผ่าน"],
+>>>>>>> 46184d5b162f3ed5471fa5bd8e6f910e93c39b25
         firstNameRules: [(v) => !!v || "กรุณากรอกชื่อ"],
         lastNameRules: [(v) => !!v || "กรุณากรอกนามสกุล"],
         telephoneRules: [
           (v) => !!v || "กรุณากรอกหมายเลขโทรศัพท์",
           (v) =>
             /^0[0-9]{2}-[0-9]{3}-[0-9]{4}$/.test(v) ||
+<<<<<<< HEAD
             "รูปแบบหมายเลขโทรศัพท์ไม่ถูกต้อง กรุณากรอกรูปแบบ 099-999-9999)",
+=======
+            "รูปแบบหมายเลขโทรศัพท์ไม่ถูกต้อง (เช่น 099-999-9999)",
+>>>>>>> 46184d5b162f3ed5471fa5bd8e6f910e93c39b25
         ],
       },
       passwordMatchRule: [
@@ -137,6 +145,7 @@ export default {
     },
 
     async register() {
+<<<<<<< HEAD
   // Check if password length is valid, password matches, and all fields are provided
   if (this.password.length < 6) {
     Swal.fire({
@@ -154,10 +163,26 @@ export default {
       text: 'กรุณากรอกรหัสผ่านและยืนยันรหัสผ่านให้ตรงกัน',
       icon: 'error',
       confirmButtonText: 'ตกลง',
+=======
+  if (this.password !== this.confirmPassword) {
+    // Passwords do not match
+    // Handle the error, e.g., show an error message
+    return;
+  }
+
+  // Check if password and telephone are provided
+  if (!this.password || !this.telephone || !this.firstName || !this.lastName) {
+    Swal.fire({
+      title: "ข้อมูลไม่ครบ",
+      text: "กรุณากรอกข้อมูลให้ครบ",
+      icon: "warning",
+      confirmButtonText: "ตกลง",
+>>>>>>> 46184d5b162f3ed5471fa5bd8e6f910e93c39b25
     });
     return;
   }
 
+<<<<<<< HEAD
   // Check if all fields are provided
   if (!this.username || !this.password || !this.telephone || !this.firstName || !this.lastName) {
     Swal.fire({
@@ -221,10 +246,18 @@ export default {
       username: this.username,
       password: this.password,
       role: 'customer',
+=======
+  try {
+    const data = {
+      username: this.username,
+      password: this.password,
+      role: "customer",
+>>>>>>> 46184d5b162f3ed5471fa5bd8e6f910e93c39b25
       c_fname: this.firstName,
       c_lname: this.lastName,
       c_tel: this.telephone,
     };
+<<<<<<< HEAD
     const registerResponse = await this.axios.post(process.env.VUE_APP_API_SERVER + '/register', data);
 
     if (registerResponse.status === 201) {
@@ -233,16 +266,39 @@ export default {
         text: 'คุณสมัครสมาชิกสำเร็จ',
         icon: 'success',
         confirmButtonText: 'ตกลง',
+=======
+    const response = await this.axios.post(
+      process.env.VUE_APP_API_SERVER + `/register`,
+      data
+    );
+    if (response.status === 201) {
+      Swal.fire({
+        title: "สมัครสมาชิกสำเร็จ!",
+        text: "คุณสมัครสมาชิกสำเร็จ",
+        icon: "success",
+        confirmButtonText: "ตกลง",
+        // timer: 1500
+>>>>>>> 46184d5b162f3ed5471fa5bd8e6f910e93c39b25
       }).then(() => window.location.reload());
     }
   } catch (error) {
     Swal.fire({
+<<<<<<< HEAD
       title: 'เกิดข้อผิดพลาด!',
       icon: 'error',
       confirmButtonText: 'ตกลง',
       timer: 1500,
     });
     console.error('Registration error:', error);
+=======
+      title: "เกิดข้อผิดพลาด!",
+      // text: "คุณสมัครสมาชิกสำเร็จ",
+      icon: "error",
+      confirmButtonText: "ตกลง",
+      timer: 1500,
+    });
+    console.error("Registration error:", error);
+>>>>>>> 46184d5b162f3ed5471fa5bd8e6f910e93c39b25
     // You can display an error message to the user here
   }
 },
